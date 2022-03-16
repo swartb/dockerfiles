@@ -10,7 +10,7 @@ RUN apt-get update && \
 
 # copy unbound config file and start unbound
 RUN curl -o /etc/unbound/unbound.conf.d/pi-hole.conf https://raw.githubusercontent.com/swartb/dockerfiles/main/pihole-unbound/unbound-pi-hole.conf
-RUN /etc/init.d/unbound start
+# RUN /etc/init.d/unbound start
 
 # configuration
 ENV TZ Europe/Amsterdam
