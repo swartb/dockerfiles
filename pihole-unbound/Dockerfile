@@ -3,17 +3,18 @@ FROM pihole/pihole:latest
 LABEL maintainer="swartb@me.com"
 LABEL url="https://github.com/swartb/dockerfiles/main/dockerfile.pi-hole-unbound"
 
+
+# install unbound
 RUN apt-get update && \
     apt-get install unbound -y
-  
-RUN curl -o /etc/unbound/unbound.conf.d/pi-hole.conf https://raw.githubusercontent.com/swartb/dockerfiles/main/pihole-unbound/unbound-ph-hole.conf
 
+# copy unbound config file and start unbound
+RUN curl -o /etc/unbound/unbound.conf.d/pi-hole.conf https://raw.githubusercontent.com/swartb/dockerfiles/main/pihole-unbound/unbound-ph-hole.conf
 RUN /etc/init.d/unbound start
 
-ENV PIHOLE_DNS_1 127.0.0.1#5335
-ENV REV_SERVER false
-ENV DNSSEC false
-ENV DNS_BOGUS_PRIV false
-ENV DNS_FQDN_REQUIRED false
-ENV DNSMASQ_LISTENING single
+# copy custom pihole config
+RUN service pihole-FTL stop
+RUN curl -o /etc/pihole/setupVars.conf https://raw.githubusercontent.com/swartb/dockerfiles/main/pihole-unbound/setupVars.conf
+RUN service pihole-FTL start
+
 ENV TZ Europe/Amsterdam
