@@ -12,9 +12,6 @@ RUN apt-get update && \
 RUN curl -o /etc/unbound/unbound.conf.d/pi-hole.conf https://raw.githubusercontent.com/swartb/dockerfiles/main/pihole-unbound/unbound-ph-hole.conf
 RUN /etc/init.d/unbound start
 
-# copy custom pihole config
-RUN service pihole-FTL stop
-RUN curl -o /etc/pihole/setupVars.conf https://raw.githubusercontent.com/swartb/dockerfiles/main/pihole-unbound/setupVars.conf
-RUN service pihole-FTL start
-
+# configuration
 ENV TZ Europe/Amsterdam
+ENV DNS1 127.0.0.1#5335
